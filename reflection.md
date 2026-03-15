@@ -5,8 +5,11 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 ## 1. What was broken when you started?
 
 - What did the game look like the first time you ran it?
+I liked the UI of the game. I thought the concept was very interesting. However, you can't find the bug just by looking at it, you had to play the game several times to find all the bugs. There were several things that were wierd so I noted all of them, incase they were errors.
+
 - List at least two concrete bugs you noticed at the start  
   (for example: "the secret number kept changing" or "the hints were backwards").
+  The game kept saying only to go Lower and never go Higher, even though my guess was lower than the secret number. Also after I won a game or after I lost the game by running out of attmepts, when I clicked New game it didn't allow me to play again. Also I noticed that since the comparision of the numbers is using string comparision, everytime my guess was like a single digit number like "9" and the secret number was "80", it said to go lower even though you clearly need to go higher. 
 
 ---
 
