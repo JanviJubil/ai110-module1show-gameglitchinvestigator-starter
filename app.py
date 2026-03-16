@@ -88,6 +88,10 @@ attempt_limit = attempt_limit_map[difficulty]
 
 low, high = get_range_for_difficulty(difficulty)
 
+if not game_in_progress and st.session_state.get("current_difficulty") != difficulty:
+    st.session_state.secret = random.randint(low, high)
+    st.session_state.current_difficulty = difficulty
+
 st.sidebar.caption(f"Range: {low} to {high}")
 st.sidebar.caption(f"Attempts allowed: {attempt_limit}")
 
