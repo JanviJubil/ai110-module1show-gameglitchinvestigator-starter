@@ -148,7 +148,11 @@ if new_game:
 
 if st.session_state.status != "playing":
     if st.session_state.status == "won":
-        st.success("You already won. Start a new game to play again.")
+        st.balloons()
+        st.success(
+            f"You won! The secret was {st.session_state.secret}. "
+            f"Final score: {st.session_state.score}"
+        )
     else:
         st.error("Game over. Start a new game to try again.")
     st.stop()
@@ -180,12 +184,8 @@ if submit:
             )
 
             if outcome == "Win":
-                st.balloons()
                 st.session_state.status = "won"
-                st.success(
-                    f"You won! The secret was {st.session_state.secret}. "
-                    f"Final score: {st.session_state.score}"
-                )
+                st.rerun()
             else:
                 if st.session_state.attempts >= attempt_limit:
                     st.session_state.status = "lost"
