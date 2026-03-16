@@ -71,10 +71,12 @@ st.caption("An AI-generated guessing game. Something is off.")
 
 st.sidebar.header("Settings")
 
+game_in_progress = st.session_state.get("attempts", 0) > 0
 difficulty = st.sidebar.selectbox(
     "Difficulty",
     ["Easy", "Normal", "Hard"],
     index=1,
+    disabled=game_in_progress,
 )
 
 attempt_limit_map = {
@@ -93,7 +95,7 @@ if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
 
 if "attempts" not in st.session_state:
-    st.session_state.attempts = 1
+    st.session_state.attempts = 0
 
 if "score" not in st.session_state:
     st.session_state.score = 0
@@ -131,12 +133,16 @@ with col2:
 with col3:
     show_hint = st.checkbox("Show hint", value=True)
 
+if st.session_state.get("last_hint") and st.session_state.get("status") == "playing":
+    st.warning(st.session_state.last_hint)
+
 if new_game:
     st.session_state.attempts = 0
     st.session_state.secret = random.randint(1, 100)
     st.session_state.status = "playing"
     st.session_state.history = []
     st.session_state.score = 0
+    st.session_state.last_hint = ""
     st.success("New game started.")
     st.rerun()
 
@@ -165,7 +171,7 @@ if submit:
             outcome, message = check_guess(guess_int, secret)
 
             if show_hint:
-                st.warning(message)
+                st.session_state.last_hint = message
 
             st.session_state.score = update_score(
                 current_score=st.session_state.score,
@@ -188,6 +194,8 @@ if submit:
                         f"The secret was {st.session_state.secret}. "
                         f"Score: {st.session_state.score}"
                     )
+                else:
+                    st.rerun()
 
 st.divider()
 st.caption("Built by an AI that claims this code is production-ready.")
